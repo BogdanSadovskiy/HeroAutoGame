@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Text;
+using System.IO;
 using System.Windows.Forms;
 namespace HeroAutoGame
 {
@@ -32,8 +33,10 @@ namespace HeroAutoGame
 
         private void loadFont()
         {
-
-            fontCollection.AddFontFile(@"C:\Users\HighestInARoom\source\repos\HeroAutoGame\Resources\KnightWarrior-w16n8.otf");
+            string fontPath =  @"..\..\Resources\KnightWarrior-w16n8.otf";
+            fontPath = Path.Combine(Application.StartupPath, fontPath);
+            fontCollection.AddFontFile(fontPath);
+            //fontCollection.AddFontFile(@"C:\Users\HighestInARoom\source\repos\HeroAutoGame\Resources\KnightWarrior-w16n8.otf");
 
         }
         private void descriptionOfGameShowChar(Label label, string text)
