@@ -27,7 +27,9 @@ namespace HeroAutoGame
         public static String gameIntro()
         {
            return "This game is about fighting between heroes.\n" +
-                "Heroes can grow by earning gold, buying items, etc";
+                "Choose your hero,earn gold, buy items and\n" +
+                "WIN your opponent.\n" +
+                "GOOD LUCK!";
       
         }
 
