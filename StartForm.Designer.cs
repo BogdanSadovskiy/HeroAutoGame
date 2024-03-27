@@ -44,8 +44,8 @@
             this.startButton.TabStop = false;
             this.startButton.Visible = false;
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
-            this.startButton.MouseLeave += new System.EventHandler(this.startButton_MouseLeave);
             this.startButton.MouseEnter += new System.EventHandler(this.startButton_MouseEnter);
+            this.startButton.MouseLeave += new System.EventHandler(this.startButton_MouseLeave);
             // 
             // StartForm
             // 

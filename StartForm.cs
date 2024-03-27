@@ -23,9 +23,11 @@ namespace HeroAutoGame
         WaveStream buttonClickSound;
         WaveStream hoverSound;
         WaveStream introMusic;
+        WaveStream wrongClick;
         WaveOut buttonClickSoundOut;
         WaveOut hoverSoundOut;
         WaveOut introSoundOut;
+        WaveOut wrongClickSoundOut;
         WeatherForm weatherForm = new WeatherForm();
         public StartForm()
         {
@@ -45,7 +47,8 @@ namespace HeroAutoGame
 
         private void startGame()
         {
-            weatherForm.loadWeather(this.Controls,buttonClickSound, buttonClickSoundOut,hoverSound,hoverSoundOut, fontCollection);
+            weatherForm.loadWeather(this,this.Controls,buttonClickSound, buttonClickSoundOut,hoverSound,hoverSoundOut,wrongClick,
+                wrongClickSoundOut, fontCollection);
         }
 
         private void setStartButtonColor(bool red)
@@ -58,6 +61,7 @@ namespace HeroAutoGame
             buttonClickSoundOut = new WaveOut();
             hoverSoundOut = new WaveOut(); 
             introSoundOut = new WaveOut();
+            wrongClickSoundOut = new WaveOut();
             string soundPath = @"..\..\Resources\Sounds\click.wav";
             soundPath = Path.Combine(Application.StartupPath, soundPath);
             buttonClickSound = new AudioFileReader(soundPath);
@@ -73,6 +77,11 @@ namespace HeroAutoGame
             introMusic = new AudioFileReader(soundPath);
             introSoundOut.Init(introMusic);
             introMusicTimer.Start();
+
+            soundPath = @"..\..\Resources\Sounds\wrong.wav";
+            soundPath = Path.Combine(Application.StartupPath, soundPath);
+            wrongClick = new AudioFileReader(soundPath);
+            wrongClickSoundOut.Init(wrongClick);
         }
 
         private void IntroMusicTimer_Tick(object sender, EventArgs e)
@@ -163,8 +172,10 @@ namespace HeroAutoGame
 
         private void StartForm_Load(object sender, EventArgs e)
         {
+            wrongClickSoundOut.Volume = 0.1f;
             introSoundOut.Volume = 0.1f; 
             introSoundOut.Play();
+            
         }
 
 

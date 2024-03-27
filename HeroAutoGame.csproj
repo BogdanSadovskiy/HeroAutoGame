@@ -131,5 +131,17 @@
   <ItemGroup>
     <Folder Include="Resources\Sonnds\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\choose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chooseGreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\randRed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\next.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
