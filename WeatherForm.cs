@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
-using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace HeroAutoGame
@@ -33,11 +32,11 @@ namespace HeroAutoGame
         bool isCurrentWeatherChosen = false;
         bool isWeatherPictureClicked = false;
         bool isRandClicked = false;
-        bool isLabalClicked = false;
+        bool isNextClicked = false;
         Form thisForm;
         PictureBox choose = new PictureBox();
         PictureBox random = new PictureBox();
-        PictureBox next =  new PictureBox();
+        PictureBox next = new PictureBox();
         Point chooseButtonLocation;
         Point chooseButtonEnterLocation;
         Point randomButtonLocation;
@@ -70,7 +69,7 @@ namespace HeroAutoGame
             imagePath = @"..\..\Images\DarkNight150on250.png";
             weatherList[2].BackgroundImage = new Bitmap(Path.Combine(Application.StartupPath, imagePath));
 
- 
+
         }
         private void saveLocations()
         {
@@ -86,8 +85,8 @@ namespace HeroAutoGame
             choose.Size = new Size(choose.BackgroundImage.Width, choose.BackgroundImage.Height);
             choose.Visible = true;
             choose.BackColor = Color.Transparent;
-            choose.Click +=  Choose_Click;
-            choose.MouseEnter +=Choose_MouseEnter;
+            choose.Click += Choose_Click;
+            choose.MouseEnter += Choose_MouseEnter;
             choose.MouseLeave += Choose_MouseLeave;
 
             random.BackgroundImage = new Bitmap(global::HeroAutoGame.Properties.Resources.randRed);
@@ -104,16 +103,24 @@ namespace HeroAutoGame
             next.BackgroundImageLayout = ImageLayout.Stretch;
             next.BackColor = Color.Transparent;
             next.Size = new Size(next.BackgroundImage.Width, next.BackgroundImage.Height);
-            next.Location = new Point(weatherList[1].Location.X - 20, weatherList[1].Location.Y+350);
+            next.Location = new Point(weatherList[1].Location.X - 20, weatherList[1].Location.Y + 350);
             next.Visible = false;
+            next.Click += Next_Click;
 
             controls.Add(random);
             controls.Add(choose);
             controls.Add(next);
             chooseButtonLocation = new Point(choose.Location.X, choose.Location.Y);
-            chooseButtonEnterLocation = new Point(chooseButtonLocation.X, chooseButtonLocation.Y -1);
+            chooseButtonEnterLocation = new Point(chooseButtonLocation.X, chooseButtonLocation.Y - 1);
             randomButtonLocation = new Point(random.Location.X, random.Location.Y);
-            randomButtonEnterLocation = new Point(randomButtonLocation.X, randomButtonLocation.Y-1);
+            randomButtonEnterLocation = new Point(randomButtonLocation.X, randomButtonLocation.Y - 1);
+        }
+
+        private void Next_Click(object sender, EventArgs e)
+        {
+            isNextClicked = true;
+            controls.Clear();
+            next.Dispose();
         }
 
         private void Random_MouseLeave(object sender, EventArgs e)
@@ -125,7 +132,7 @@ namespace HeroAutoGame
         {
             hoverSound.CurrentTime = new TimeSpan(0L);
             hoverSoundOut.Play();
-            random.Size = new Size(random.Width +2, random.Height+2);
+            random.Size = new Size(random.Width + 2, random.Height + 2);
             random.Location = randomButtonEnterLocation;
         }
         private void Random_Click(object sender, EventArgs e)
@@ -212,17 +219,13 @@ namespace HeroAutoGame
             {
                 p.Visible = false;
                 p.Dispose();
-                p.MouseEnter -= Weather_MouseEnter;
-                p.MouseLeave -= Weather_MouseLeave;
-                p.MouseHover -= Weather_MouseHover;
-                p.MouseClick -= Weather_MouseClick;
                 controls.Remove(p);
             }
-            choose.Click-= Choose_Click;
+            choose.Click -= Choose_Click;
             controls.Remove(choose);
-           // controls.Remove(descriptionOfWeatherLabel);
+            // controls.Remove(descriptionOfWeatherLabel);
             controls.Remove(random);
-            
+
         }
         private void Weather_MouseClick(object sender, MouseEventArgs e)
         {
@@ -297,7 +300,7 @@ namespace HeroAutoGame
             this.wrongClick = wrongClick;
             this.wrongClickSoundOut = wrongClickSoundOut;
         }
-        public void loadWeather(Form thisForm, Control.ControlCollection controls, WaveStream buttonClickSound, WaveOut buttonClickSoundOut,
+        public Weather loadWeather(Form thisForm, Control.ControlCollection controls, WaveStream buttonClickSound, WaveOut buttonClickSoundOut,
             WaveStream hoverSound, WaveOut hoverSoundOut, WaveStream wrongClick, WaveOut wrongClickSoundOut, PrivateFontCollection fontCollection)
         {
             this.thisForm = thisForm;
@@ -307,7 +310,13 @@ namespace HeroAutoGame
             initializeWeather();
             initializePictureList();
             initializeButtons();
-            
+            while (!isNextClicked)
+            {
+
+                Application.DoEvents();
+
+            }
+            return currentWeather;
         }
 
         private void randWeather()
@@ -317,7 +326,7 @@ namespace HeroAutoGame
             int number = r.Next(1, 4);
             if (number == 1) setCurrenWeatherPicture(weatherList[0]);
             else if (number == 2) setCurrenWeatherPicture(weatherList[1]);
-            else  setCurrenWeatherPicture(weatherList[2]); 
+            else setCurrenWeatherPicture(weatherList[2]);
             isRandClicked = true;
             showDescriptionOfChosenWeather();
             exitFromThisClass();
@@ -328,7 +337,7 @@ namespace HeroAutoGame
             if (isRandClicked) text += "randomly ";
             text += "chosen " + ":\n\n";
             text += currentWeather.ToString();
-            return text;    
+            return text;
         }
         private void initializeDescriptionTimer()
         {
@@ -339,10 +348,10 @@ namespace HeroAutoGame
 
         private void IsDescriptionFinished_Tick(object sender, EventArgs e)
         {
-            if (description.getIsDescriptionLoaded() )
+            if (description.getIsDescriptionLoaded())
             {
                 next.Visible = true;
-              
+
                 isCurrentWeatherChosen = true;
                 isDescriptionFinished.Stop();
             }
@@ -350,9 +359,9 @@ namespace HeroAutoGame
 
         private void showDescriptionOfChosenWeather()
         {
-           
+
             descriptionOfWeatherLabel.Font = new Font(_fontCollection.Families[0], 20);
-            descriptionOfWeatherLabel.Location =  new Point(currentWeatherPicture.Width/ 4 + 120, 
+            descriptionOfWeatherLabel.Location = new Point(currentWeatherPicture.Width / 4 + 120,
                 currentWeatherPicture.Height / 2 - currentWeatherPicture.Height / 4 - 40);
             descriptionOfWeatherLabel.AutoSize = true;
             descriptionOfWeatherLabel.BorderStyle = BorderStyle.None;
@@ -363,6 +372,6 @@ namespace HeroAutoGame
             initializeDescriptionTimer();
         }
 
-    
+
     }
 }

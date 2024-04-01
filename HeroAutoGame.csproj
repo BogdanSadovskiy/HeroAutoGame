@@ -76,10 +76,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Alchemist.cs" />
+    <Compile Include="Artefact.cs" />
     <Compile Include="Cloudy.cs" />
+    <Compile Include="DamageType.cs" />
     <Compile Include="DarkNight.cs" />
     <Compile Include="Description.cs" />
+    <Compile Include="Fight.cs" />
     <Compile Include="GameProcces.cs" />
+    <Compile Include="Hero.cs" />
+    <Compile Include="HeroPick.cs" />
+    <Compile Include="HeroPickForm.cs" />
+    <Compile Include="Juggernaut.cs" />
     <Compile Include="StartForm.cs">
       <SubType>Form</SubType>
     </Compile>

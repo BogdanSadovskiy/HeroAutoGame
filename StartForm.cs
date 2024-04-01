@@ -29,6 +29,9 @@ namespace HeroAutoGame
         WaveOut introSoundOut;
         WaveOut wrongClickSoundOut;
         WeatherForm weatherForm = new WeatherForm();
+        Weather weather;
+        Hero playerLeft;
+        Hero playerRight;
         public StartForm()
         {
 
@@ -47,8 +50,12 @@ namespace HeroAutoGame
 
         private void startGame()
         {
-            weatherForm.loadWeather(this,this.Controls,buttonClickSound, buttonClickSoundOut,hoverSound,hoverSoundOut,wrongClick,
+            weather = weatherForm.loadWeather(this, this.Controls, buttonClickSound, buttonClickSoundOut, hoverSound, hoverSoundOut, wrongClick,
                 wrongClickSoundOut, fontCollection);
+            HeroPickForm heroPickForm = new HeroPickForm(this);
+            playerLeft = heroPickForm.getPlayerLeftHero();
+            playerRight = heroPickForm.getPlayerRightHero();
+            Fight fight = new Fight(playerLeft, playerRight, weather, this);
         }
 
         private void setStartButtonColor(bool red)
@@ -59,7 +66,7 @@ namespace HeroAutoGame
         private void loadSoundClickButton()
         {
             buttonClickSoundOut = new WaveOut();
-            hoverSoundOut = new WaveOut(); 
+            hoverSoundOut = new WaveOut();
             introSoundOut = new WaveOut();
             wrongClickSoundOut = new WaveOut();
             string soundPath = @"..\..\Resources\Sounds\click.wav";
@@ -173,9 +180,9 @@ namespace HeroAutoGame
         private void StartForm_Load(object sender, EventArgs e)
         {
             wrongClickSoundOut.Volume = 0.1f;
-            introSoundOut.Volume = 0.1f; 
+            introSoundOut.Volume = 0.1f;
             introSoundOut.Play();
-            
+
         }
 
 

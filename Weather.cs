@@ -4,11 +4,11 @@ namespace HeroAutoGame
 {
     public abstract class Weather
     {
-        protected Image weatherImage { get; set; }
+        public Image weatherImage { get; set; }
         protected string Name { get; set; }
-        protected int missChance { get; set; }
-        protected int magicResistance { get; set; }
-        protected int healthRegeneration { get; set; }
+        public int missChance { get; set; }
+        public int magicResistance { get; set; }
+        public int healthRegeneration { get; set; }
         public abstract void setImage();
         public Image getWeatherImage() { return weatherImage; }
         public string getName() { return Name; }
